@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FamilyTreeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Marriage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Person1_Id" Type="int" Nullable="false" />
+    <Property Name="Person2_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Parents">
+    <Key>
+      <PropertyRef Name="ChildId" />
+    </Key>
+    <Property Name="ChildId" Type="int" Nullable="false" />
+    <Property Name="FatherId" Type="int" />
+    <Property Name="MotherId" Type="int" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gender" Type="bit" Nullable="false" />
+    <Property Name="Birthdate" Type="datetime" />
+  </EntityType>
+  <Association Name="chid_person_FK">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Parents" Type="Self.Parents" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Parents">
+        <PropertyRef Name="ChildId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Marriage__Person__2D27B809">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Marriage" Type="Self.Marriage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Marriage">
+        <PropertyRef Name="Person1_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Marriage__Person__2E1BDC42">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Marriage" Type="Self.Marriage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Marriage">
+        <PropertyRef Name="Person2_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Parents__FatherI__29572725">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="Parents" Type="Self.Parents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Parents">
+        <PropertyRef Name="FatherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Parents__MotherI__2A4B4B5E">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="Parents" Type="Self.Parents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Parents">
+        <PropertyRef Name="MotherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FamilyTreeModelStoreContainer">
+    <EntitySet Name="Marriage" EntityType="Self.Marriage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Parents" EntityType="Self.Parents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="chid_person_FK" Association="Self.chid_person_FK">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Parents" EntitySet="Parents" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Marriage__Person__2D27B809" Association="Self.FK__Marriage__Person__2D27B809">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Marriage" EntitySet="Marriage" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Marriage__Person__2E1BDC42" Association="Self.FK__Marriage__Person__2E1BDC42">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Marriage" EntitySet="Marriage" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Parents__FatherI__29572725" Association="Self.FK__Parents__FatherI__29572725">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Parents" EntitySet="Parents" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Parents__MotherI__2A4B4B5E" Association="Self.FK__Parents__MotherI__2A4B4B5E">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Parents" EntitySet="Parents" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

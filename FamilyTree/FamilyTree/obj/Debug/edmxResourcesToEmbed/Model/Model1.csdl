@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FamilyTreeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Gender" Type="Boolean" Nullable="false" />
+    <Property Name="Birthdate" Type="DateTime" Precision="3" />
+    <Property Name="MotherId" Type="Int32" />
+    <Property Name="FatherID" Type="Int32" />
+    <Property Name="MarriageFrom" Type="Int32" />
+    <NavigationProperty Name="FatherChilds" Relationship="FamilyTreeModel.FK_Person_Father" FromRole="Person" ToRole="Person1" />
+    <NavigationProperty Name="Father" Relationship="FamilyTreeModel.FK_Person_Father" FromRole="Person1" ToRole="Person" />
+    <NavigationProperty Name="Marraige" Relationship="FamilyTreeModel.FK_Person_Marriage" FromRole="Person" ToRole="Person1" />
+    <NavigationProperty Name="MarraigeFrom" Relationship="FamilyTreeModel.FK_Person_Marriage" FromRole="Person1" ToRole="Person" />
+    <NavigationProperty Name="MotherChilds" Relationship="FamilyTreeModel.FK_Person_Mother" FromRole="Person" ToRole="Person1" />
+    <NavigationProperty Name="Mother" Relationship="FamilyTreeModel.FK_Person_Mother" FromRole="Person1" ToRole="Person" />
+    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="FamilyTreeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <AssociationSet Name="FK_Person_Father" Association="FamilyTreeModel.FK_Person_Father">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Person1" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Person_Marriage" Association="FamilyTreeModel.FK_Person_Marriage">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Person1" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Person_Mother" Association="FamilyTreeModel.FK_Person_Mother">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Person1" EntitySet="People" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_Person_Father">
+    <End Type="FamilyTreeModel.Person" Role="Person" Multiplicity="0..1" />
+    <End Type="FamilyTreeModel.Person" Role="Person1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person1">
+        <PropertyRef Name="FatherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Person_Marriage">
+    <End Type="FamilyTreeModel.Person" Role="Person" Multiplicity="0..1" />
+    <End Type="FamilyTreeModel.Person" Role="Person1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person1">
+        <PropertyRef Name="MarriageFrom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Person_Mother">
+    <End Type="FamilyTreeModel.Person" Role="Person" Multiplicity="0..1" />
+    <End Type="FamilyTreeModel.Person" Role="Person1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person1">
+        <PropertyRef Name="MotherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
